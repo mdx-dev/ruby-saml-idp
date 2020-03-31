@@ -5,7 +5,11 @@ module SamlIdp
 
     protect_from_forgery
 
-    before_filter :validate_saml_request, only: :create
+    if ::Rails::VERSION::MAJOR > 3
+      before_action :validate_saml_request, only: :create
+    else
+      before_filter :validate_saml_request, only: :create
+    end
 
     def new
       render :template => "saml_idp/idp/new"
